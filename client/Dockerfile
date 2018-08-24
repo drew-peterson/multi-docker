@@ -1,7 +1,6 @@
 FROM node:alpine as builder
 WORKDIR '/app'
-COPY './package.json' ./
-COPY './yarn.lock' ./
+COPY ./package.json ./
 RUN yarn install
 COPY . .
 RUN yarn build
@@ -9,4 +8,4 @@ RUN yarn build
 FROM nginx
 EXPOSE 3000
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html
