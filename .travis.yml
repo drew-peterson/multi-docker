@@ -1,48 +1,25 @@
-# sudo: required
-# services:
-#   - docker
-
-# before_install:
-#   # tag w/ name for later use and we have to specifci the dockerfile name and context
-#   - docker build -t weeznog/react-test -f ./client/Dockerfile.dev ./client
-#   # - could add anther buikld for the server and  then add another test in scrips
-
-# scripts:
-#   - docker run weeznog/react-test npm test -- --coverage
-
-# after_success:
-#   - docker build -t weeznog/multi-client ./client
-#   - docker build -t weeznog/multi-nginx ./nginx
-#   - docker build -t weeznog/multi-server ./server
-#   - docker build -t weeznog/multi-worker ./worker
-
-#   # - Login to docker CLI
-#   # vars from travis
-#   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-#   # Take images and push to docker hub
-#   - docker push weeznog/multi-client
-#   - docker push weeznog/multi-nginx
-#   - docker push weeznog/multi-server
-#   - docker push weeznog/multi-worker
-
 sudo: required
 services:
   - docker
 
 before_install:
+  # tag w/ name for later use and we have to specifci the dockerfile name and context
   - docker build -t weeznog/react-test -f ./client/Dockerfile.dev ./client
+  # - could add anther buikld for the server and  then add another test in scrips
 
 script:
-  - docker run weeznog/react-test npm test -- --coverage
+  - docker run weeznog/react-test yarn test -- --coverage
 
 after_success:
   - docker build -t weeznog/multi-client ./client
   - docker build -t weeznog/multi-nginx ./nginx
   - docker build -t weeznog/multi-server ./server
   - docker build -t weeznog/multi-worker ./worker
-  # Log in to the docker CLI
+
+  # - Login to docker CLI
+  # vars from travis
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  # Take those images and push them to docker hub
+  # Take images and push to docker hub
   - docker push weeznog/multi-client
   - docker push weeznog/multi-nginx
   - docker push weeznog/multi-server
