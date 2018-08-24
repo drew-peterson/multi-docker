@@ -8,7 +8,7 @@ before_install:
   # - could add anther buikld for the server and  then add another test in scrips
 
 scripts:
-  - docker run weeznog/react-test yarn test -- --coverage
+  - docker run weeznog/react-test npm test -- --coverage
 
 after_success:
   - docker build -t weeznog/multi-client ./client
