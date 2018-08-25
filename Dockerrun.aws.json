@@ -1,0 +1,36 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "client",
+      "image": "weeznog/multi-client",
+      "hostname": "client",
+      "essential": false
+    },
+    {
+      "name": "server",
+      "image": "weeznog/multi-server",
+      "hostname": "api",
+      "essential": false
+    },
+    {
+      "name": "worker",
+      "image": "weeznog/multi-worker",
+      "hostname": "worker",
+      "essential": false
+    },
+    {
+      "mame": "nginx",
+      "image": "weeznog/multi-nginx",
+      "hostname": "nginx",
+      "essential": true,
+      "portMapings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": ["client", "server"]
+    }
+  ]
+}
